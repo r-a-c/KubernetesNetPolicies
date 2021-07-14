@@ -1,0 +1,32 @@
+kind: ConfigMap
+apiVersion: v1
+data:
+  policy.cfg: |
+    {
+      "kind" : "Policy",
+      "apiVersion" : "v1",
+      "predicates" : [
+                {"name" : "PodFitsHostPorts"},
+                {"name" : "PodFitsResources"},
+                {"name" : "NoVolumeZoneConflict"},
+                {"name" : "NoDiskConflict"},
+                {"name" : "PodToleratesNodeTaints"},
+                {"name" : "MatchInterPodAffinity"}
+                ],
+        "extenders" : [
+        	{
+          "urlPrefix": "http://127.0.0.1:12346/scheduler",
+          "filterVerb": "filter",
+          "prioritizeVerb": "prioritize",
+          "preemptVerb": "preempt",
+          "weight": 5,
+          "enableHttps": false,
+          "nodeCacheCapable": false
+                }
+    	        ]
+
+    }
+metadata:
+  name: test-policy-nas
+  namespace: kube-system
+
